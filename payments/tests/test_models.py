@@ -15,7 +15,7 @@ class PaymentTest(TestCase):
         # Получаем дату с максимальным временем и днем месяца
         max_date = get_max_day_and_time(date)
 
-        # Создаем пользователя, на которого будет подписка
+        # Создаем пользователя, у которого будет подписка
         user = User.objects.create(username='test_user')
 
         # Создаем платеж c текущей датой и временем
