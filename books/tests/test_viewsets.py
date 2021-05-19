@@ -33,11 +33,18 @@ class BookViewSetTest(TestCase):
         # Создаем пользователя и авторизовываемся им
         self.create_user(with_login=True)
 
+        self.create_book()
+
         # Запрашиваем список книг
         response = self.client.get(f'/api/books/')
 
         # Хотим видеть что запрос прошел успешно
         self.assertEqual(response.status_code, 200)
+
+        # Хотим видеть что данных нет содержания книги
+        self.assertNotIn('contant', response.data[0])
+        # Но есть автор книги
+        self.assertIn('author', response.data[0])
 
     def test_can_not_get_list_books_without_authenticated(self):
         """тест: не авторизованный пользователь не имеет доступа к списку книг"""
@@ -80,6 +87,9 @@ class BookViewSetTest(TestCase):
 
         # Хотим видеть что запрос прошел успешно
         self.assertEqual(response.status_code, 200)
+
+        # Хотим видеть содержимое книги в ответе
+        self.assertIn('content', response.data)
 
     def test_can_not_get_book_without_authenticated(self):
         """тест: не авторизованный пользователь не имеет доступа к содержанию книг"""
